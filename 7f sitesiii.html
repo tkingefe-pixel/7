@@ -2,186 +2,216 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>7F Sınıf Sitesi</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7-F Sınıfı Galerisi</title>
 
 <style>
-/* ===== GENEL ===== */
+/* GENEL */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
+  background: linear-gradient(120deg, #4facfe, #00f2fe);
   color: white;
-  background: linear-gradient(270deg, #0f2027, #203a43, #2c5364);
-  background-size: 600% 600%;
-  animation: bgMove 15s ease infinite;
+  overflow-x: hidden;
 }
 
-@keyframes bgMove {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
+/* HAREKETLİ ARKA PLAN */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("https://i.imgur.com/8QfQYQp.png");
+  opacity: 0.15;
+  animation: clouds 60s linear infinite;
+  z-index: -1;
 }
 
-h1, h2 {
+@keyframes clouds {
+  from { background-position: 0 0; }
+  to { background-position: 2000px 0; }
+}
+
+/* INTRO */
+#intro {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, #00f2ff, #001f3f);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.intro-text {
+  font-size: 60px;
+  font-weight: bold;
+  animation: introAnim 3s ease;
+  text-shadow: 0 0 20px cyan;
+}
+
+@keyframes introAnim {
+  0% {transform: scale(0); opacity: 0;}
+  60% {transform: scale(1.2); opacity: 1;}
+  100% {opacity: 0;}
+}
+
+/* BAŞLIK */
+h1 {
   text-align: center;
-  animation: fadeDown 1.5s ease;
+  margin-top: 40px;
 }
 
-@keyframes fadeDown {
-  from {opacity: 0; transform: translateY(-40px);}
-  to {opacity: 1; transform: translateY(0);}
-}
-
-/* ===== RESİMLER (FİLM RULOSU) ===== */
+/* FOTOĞRAF GALERİ */
 .gallery {
   display: flex;
-  gap: 20px;
   overflow-x: auto;
+  gap: 20px;
   padding: 30px;
-  scroll-behavior: smooth;
 }
 
 .gallery img {
-  height: 300px;
+  height: 250px;
   border-radius: 15px;
-  animation: slideIn 2s ease;
-  transition: transform 0.4s, box-shadow 0.4s;
+  cursor: pointer;
+  transition: transform 0.3s;
 }
 
 .gallery img:hover {
-  transform: scale(1.1) rotate(2deg);
-  box-shadow: 0 0 30px cyan;
+  transform: scale(1.1);
 }
 
-@keyframes slideIn {
-  from {opacity: 0; transform: translateX(100px);}
-  to {opacity: 1; transform: translateX(0);}
-}
-
-/* ===== VİDEOLAR ===== */
-.videos {
-  display: flex;
+/* MODAL */
+#modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  align-items: center;
   justify-content: center;
-  gap: 40px;
-  padding: 30px;
-  flex-wrap: wrap;
 }
 
-.videos video {
-  width: 420px;
-  border-radius: 20px;
-  box-shadow: 0 0 25px black;
-  animation: zoomIn 1.5s ease;
+#modal img {
+  max-width: 90%;
+  max-height: 90%;
 }
 
-@keyframes zoomIn {
-  from {opacity: 0; transform: scale(0.5);}
-  to {opacity: 1; transform: scale(1);}
+/* VIDEOLAR */
+.videos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
 }
 
-/* ===== YORUMLAR ===== */
+video {
+  width: 100%;
+  border-radius: 15px;
+}
+
+/* YORUMLAR */
 .comments {
+  padding: 20px;
   max-width: 600px;
   margin: auto;
-  background: rgba(0,0,0,0.4);
-  padding: 20px;
-  border-radius: 15px;
-  animation: fadeUp 2s ease;
 }
 
-@keyframes fadeUp {
-  from {opacity: 0; transform: translateY(40px);}
-  to {opacity: 1; transform: translateY(0);}
-}
-
-input, textarea, button {
+.comments textarea {
   width: 100%;
-  margin-top: 10px;
-  padding: 10px;
+  height: 80px;
   border-radius: 10px;
   border: none;
+  padding: 10px;
 }
 
-button {
-  background: cyan;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-button:hover {
-  background: lime;
-  transform: scale(1.05);
+.comments button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #001f3f;
+  color: white;
 }
 
 .comment {
-  background: rgba(255,255,255,0.15);
+  background: rgba(0,0,0,0.3);
   margin-top: 10px;
   padding: 10px;
   border-radius: 10px;
-  animation: fadeUp 0.8s ease;
 }
 </style>
 </head>
 
 <body>
 
-<h1>🔥 7F SINIFI 🔥</h1>
+<!-- INTRO -->
+<div id="intro">
+  <div class="intro-text">7-F SINIFI</div>
+</div>
 
-<h2>📸 Fotoğraflar</h2>
+<h1>7-F Sınıfı Galerisi</h1>
+
+<!-- FOTOĞRAFLAR -->
 <div class="gallery">
-  <img src="https://picsum.photos/500/300?1">
-  <img src="https://picsum.photos/500/300?2">
-  <img src="https://picsum.photos/500/300?3">
-  <img src="https://picsum.photos/500/300?4">
+  <img src="resim1.jpg" onclick="openImg(this.src)">
+  <img src="resim2.jpg" onclick="openImg(this.src)">
+  <img src="resim3.jpg" onclick="openImg(this.src)">
+  <img src="resim4.jpg" onclick="openImg(this.src)">
+  <img src="resim5.jpg" onclick="openImg(this.src)">
 </div>
 
-<h2>🎬 Videolar</h2>
+<!-- VIDEOLAR -->
 <div class="videos">
-  <video controls>
-    <source src="video1.mp4" type="video/mp4">
-  </video>
-
-  <video controls>
-    <source src="video2.mp4" type="video/mp4">
-  </video>
+  <video controls src="video1.mp4"></video>
+  <video controls src="video2.mp4"></video>
 </div>
 
-<h2>💬 Yorumlar</h2>
+<!-- YORUMLAR -->
 <div class="comments">
-  <input id="name" placeholder="Adın">
-  <textarea id="text" placeholder="Yorum yaz..."></textarea>
+  <h2>Yorumlar</h2>
+  <textarea id="commentText" placeholder="Yorum yaz..."></textarea>
   <button onclick="addComment()">Gönder</button>
   <div id="commentList"></div>
 </div>
 
+<!-- MODAL -->
+<div id="modal" onclick="this.style.display='none'">
+  <img id="modalImg">
+</div>
+
 <script>
+// INTRO KAPANIR
+setTimeout(() => {
+  document.getElementById("intro").style.display = "none";
+}, 3000);
+
+// FOTO MODAL
+function openImg(src) {
+  document.getElementById("modal").style.display = "flex";
+  document.getElementById("modalImg").src = src;
+}
+
+// YORUMLAR (KALICI)
 const list = document.getElementById("commentList");
 
 function loadComments() {
-  const comments = JSON.parse(localStorage.getItem("yorumlar")) || [];
-  comments.forEach(c => showComment(c.name, c.text));
+  const comments = JSON.parse(localStorage.getItem("comments") || "[]");
+  comments.forEach(c => {
+    const div = document.createElement("div");
+    div.className = "comment";
+    div.textContent = c;
+    list.appendChild(div);
+  });
 }
 
 function addComment() {
-  const name = document.getElementById("name").value;
-  const text = document.getElementById("text").value;
-  if (!name || !text) return;
-
-  showComment(name, text);
-
-  const comments = JSON.parse(localStorage.getItem("yorumlar")) || [];
-  comments.push({name, text});
-  localStorage.setItem("yorumlar", JSON.stringify(comments));
-
-  document.getElementById("name").value = "";
-  document.getElementById("text").value = "";
-}
-
-function showComment(name, text) {
-  const div = document.createElement("div");
-  div.className = "comment";
-  div.innerHTML = "<b>" + name + ":</b> " + text;
-  list.appendChild(div);
+  const text = document.getElementById("commentText").value;
+  if (!text) return;
+  const comments = JSON.parse(localStorage.getItem("comments") || "[]");
+  comments.push(text);
+  localStorage.setItem("comments", JSON.stringify(comments));
+  document.getElementById("commentText").value = "";
+  list.innerHTML = "";
+  loadComments();
 }
 
 loadComments();
@@ -189,3 +219,4 @@ loadComments();
 
 </body>
 </html>
+
